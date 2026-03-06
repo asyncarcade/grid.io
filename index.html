@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GRID.IO — Territory Game</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="ui-overlay">
+    <div id="hud">
+      <div id="player-info">
+        <div class="hud-label">TERRITORY</div>
+        <div id="territory-bar-wrap">
+          <div id="territory-bar"></div>
+        </div>
+        <div id="territory-pct">0%</div>
+      </div>
+      <div id="score-info">
+        <div class="hud-label">SCORE</div>
+        <div id="score-value">0</div>
+      </div>
+      <div id="rank-info">
+        <div class="hud-label">RANK</div>
+        <div id="rank-value">#1</div>
+      </div>
+    </div>
+    <div id="minimap-wrap">
+      <canvas id="minimap" width="150" height="150"></canvas>
+      <div class="minimap-label">MINIMAP</div>
+    </div>
+  </div>
+
+  <canvas id="gameCanvas"></canvas>
+
+  <div id="screen-start" class="screen">
+    <div class="screen-inner">
+      <div class="logo-art">⬛</div>
+      <h1 class="game-title">GRID<span class="accent">.IO</span></h1>
+      <p class="game-sub">Capture territory. Eliminate rivals.</p>
+      <div class="controls-hint">
+        <span>WASD</span> or <span>↑↓←→</span> to move
+      </div>
+      <button id="btn-start" class="btn-primary">PLAY</button>
+    </div>
+  </div>
+
+  <div id="screen-gameover" class="screen hidden">
+    <div class="screen-inner">
+      <h2 class="go-title">ELIMINATED</h2>
+      <div id="go-stats">
+        <div class="stat-row"><span>Territory Captured</span><span id="go-territory">0%</span></div>
+        <div class="stat-row"><span>Final Score</span><span id="go-score">0</span></div>
+        <div class="stat-row"><span>Survived</span><span id="go-time">0s</span></div>
+      </div>
+      <button id="btn-restart" class="btn-primary">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <div id="screen-win" class="screen hidden">
+    <div class="screen-inner">
+      <h2 class="win-title">VICTORY!</h2>
+      <div id="win-stats">
+        <div class="stat-row"><span>Territory</span><span id="win-territory">0%</span></div>
+        <div class="stat-row"><span>Score</span><span id="win-score">0</span></div>
+      </div>
+      <button id="btn-win-restart" class="btn-primary">PLAY AGAIN</button>
+    </div>
+  </div>
+
+  <script src="js/utils.js"></script>
+  <script src="js/input.js"></script>
+  <script src="js/grid.js"></script>
+  <script src="js/camera.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/bot.js"></script>
+  <script src="js/renderer.js"></script>
+  <script src="js/game.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
