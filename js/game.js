@@ -51,6 +51,7 @@ class Game {
     const hp = positions[0];
     this.human = new Player(1, hp.x, hp.y, Utils.PLAYER_COLORS[0], true);
     this._seedTerritory(this.human, START_TERRITORY_RADIUS);
+    this._wireSounds(this.human);
     this.players.push(this.human);
 
     // Bots
@@ -59,6 +60,7 @@ class Game {
       const bot = new Bot(i+2, bp.x, bp.y, Utils.PLAYER_COLORS[i+1]);
       bot.moveInterval = MOVE_INTERVAL + Utils.randInt(-20, 30);
       this._seedTerritory(bot, START_TERRITORY_RADIUS);
+      this._wireSounds(bot);
       this.players.push(bot);
     }
 
@@ -67,6 +69,26 @@ class Game {
     this.camera.x = h.worldX - this.canvas.width/2;
     this.camera.y = h.worldY - this.canvas.height/2;
     this.camera.follow(h.worldX, h.worldY, 1);
+  }
+
+  _wireSounds(player) {
+    const isHuman = player.isHuman;
+    player.onTurn = (p) => {
+      if (isHuman) Sound.turn();
+    };
+    player.onCapture = (p, cellCount) => {
+      if (isHuman) {
+        Sound.capture(cellCount);
+      }
+    };
+    player.onDie = (p) => {
+      if (isHuman) {
+        Sound.playerDie();
+      } else {
+        // Only play kill sound if human is alive (they got the kill or bots die)
+        Sound.kill();
+      }
+    };
   }
 
   _spreadPositions(count, gw, gh, minDist) {
@@ -173,6 +195,7 @@ class Game {
     const alivePlayers = this.players.filter(p => p.alive);
     if (!this.human.alive) {
       this.stop();
+      Sound.gameOver();
       const elapsed = (timestamp - this.startTime) / 1000;
       if (this._onGameOver) this._onGameOver({
         territory: this._territoryPct(this.human),
@@ -183,6 +206,7 @@ class Game {
     }
     if (alivePlayers.length === 1 && alivePlayers[0].isHuman) {
       this.stop();
+      Sound.victory();
       if (this._onWin) this._onWin({
         territory: this._territoryPct(this.human),
         score: this.human.score,
@@ -204,6 +228,7 @@ class Game {
     document.getElementById('territory-bar').style.width = pct + '%';
     document.getElementById('territory-pct').textContent  = pct + '%';
     document.getElementById('score-value').textContent    = this.human.score;
+    document.getElementById('player-name-value').textContent = this.human.name;
 
     // Rank: sort players by territory
     const alive = this.players.filter(p=>p.alive);

@@ -9,6 +9,7 @@ class Player {
     this.id       = id;         // 1-based
     this.isHuman  = isHuman;
     this.color    = colorSet;
+    this.name     = Utils.pickName();
 
     // Grid position
     this.gx = gridX;
@@ -36,6 +37,15 @@ class Player {
 
     // For smooth animation
     this.animT = 1; // 0 = just moved, 1 = arrived
+
+    // Sound callbacks (set by Game)
+    this.onTurn    = null;
+    this.onCapture = null;
+    this.onDie     = null;
+
+    // Track last direction to detect turns
+    this._lastDx = this.dx;
+    this._lastDy = this.dy;
   }
 
   get worldX() { return this.gx * CELL_SIZE + CELL_SIZE / 2; }
@@ -66,6 +76,13 @@ class Player {
     // Apply queued direction
     this.dx = this.pendingDx;
     this.dy = this.pendingDy;
+
+    // Detect direction change → turn sound
+    if ((this.dx !== this._lastDx || this.dy !== this._lastDy) && this.onTurn) {
+      this.onTurn(this);
+    }
+    this._lastDx = this.dx;
+    this._lastDy = this.dy;
 
     const nx = this.gx + this.dx;
     const ny = this.gy + this.dy;
@@ -120,7 +137,6 @@ class Player {
     grid.convertTrailToTerritory(this.id);
 
     // Flood fill to find enclosed cells
-    const trailSet = grid.buildTrailSet(this.id); // empty now, but trail→territory already done, use territory set
     const territorySet = grid.buildTerritorySet(this.id);
     const interior = Utils.floodFillInterior(grid.width, grid.height, new Set(), territorySet, []);
 
@@ -137,6 +153,9 @@ class Player {
       }
     }
 
+    // Sound
+    if (this.onCapture) this.onCapture(this, gained);
+
     if (onCapture) onCapture(this);
   }
 
@@ -147,6 +166,8 @@ class Player {
     if (particles) {
       particles.burst(this.worldX, this.worldY, this.color.trail, 20);
     }
+    // Sound
+    if (this.onDie) this.onDie(this);
     grid.clearPlayer(this.id);
   }
 }

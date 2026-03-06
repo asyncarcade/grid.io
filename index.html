@@ -24,6 +24,10 @@
         <div class="hud-label">RANK</div>
         <div id="rank-value">#1</div>
       </div>
+      <div id="name-info">
+        <div class="hud-label">YOU</div>
+        <div id="player-name-value">—</div>
+      </div>
     </div>
     <div id="minimap-wrap">
       <canvas id="minimap" width="150" height="150"></canvas>
@@ -39,7 +43,7 @@
       <h1 class="game-title">GRID<span class="accent">.IO</span></h1>
       <p class="game-sub">Capture territory. Eliminate rivals.</p>
       <div class="controls-hint">
-        <span>WASD</span> or <span>↑↓←→</span> to move
+        <span>WASD</span> or <span>↑↓←→</span> to move &nbsp;·&nbsp; <span>Swipe</span> on mobile
       </div>
       <button id="btn-start" class="btn-primary">PLAY</button>
     </div>
@@ -72,6 +76,7 @@
   <script src="js/input.js"></script>
   <script src="js/grid.js"></script>
   <script src="js/camera.js"></script>
+  <script src="js/sound.js"></script>
   <script src="js/player.js"></script>
   <script src="js/bot.js"></script>
   <script src="js/renderer.js"></script>

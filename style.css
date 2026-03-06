@@ -41,8 +41,57 @@ html, body {
   position: absolute;
   top: 18px; left: 18px;
   display: flex;
+  flex-direction: row;
   gap: 16px;
   align-items: flex-start;
+}
+
+/* ── Mobile: stack HUD vertically ───────────── */
+@media (max-width: 600px) {
+  #hud {
+    flex-direction: column;
+    gap: 8px;
+    top: 12px;
+    left: 12px;
+  }
+
+  #player-info, #score-info, #rank-info {
+    padding: 6px 12px;
+    min-width: 130px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #player-info {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+  }
+
+  .hud-label {
+    font-size: 8px;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+
+  #score-value, #rank-value {
+    font-size: 18px;
+  }
+
+  #territory-pct {
+    font-size: 10px;
+  }
+
+  #minimap-wrap {
+    top: 12px;
+    right: 12px;
+  }
+
+  #minimap {
+    width: 100px !important;
+    height: 100px !important;
+  }
 }
 
 .hud-label {
@@ -87,12 +136,42 @@ html, body {
   text-align: right;
 }
 
-#score-value, #rank-value {
+#score-value, #rank-value, #player-name-value {
   font-family: var(--font-display);
   font-size: 22px;
   font-weight: 900;
   color: #fff;
   text-shadow: 0 0 12px var(--accent);
+}
+
+#name-info {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 6px;
+  padding: 8px 14px;
+  backdrop-filter: blur(8px);
+  min-width: 80px;
+}
+
+#player-name-value {
+  font-size: 16px;
+  letter-spacing: 1px;
+  color: var(--accent);
+  text-shadow: 0 0 10px var(--accent);
+}
+
+@media (max-width: 600px) {
+  #name-info {
+    padding: 6px 12px;
+    min-width: 130px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  #player-name-value {
+    font-size: 14px;
+  }
 }
 
 /* ── MINIMAP ────────────────────────────────── */

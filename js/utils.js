@@ -65,5 +65,28 @@ const Utils = (() => {
     { territory: '#e8e000', trail: '#f5f06e', light: 'rgba(232,224,0,0.25)' },
   ];
 
-  return { clamp, lerp, randInt, randFrom, dist2, floodFillInterior, PLAYER_COLORS };
+  // 72 unique real-sounding player names
+  const PLAYER_NAMES = [
+    'Aiden','Zara','Marcus','Leila','Tyler','Nina','Ezra','Cleo',
+    'Jasper','Mia','Darius','Sasha','Owen','Vera','Finn','Lyra',
+    'Remy','Isla','Colt','Tara','Beau','Nadia','Cruz','Elsa',
+    'Knox','Piper','Seth','Freya','Jude','Luna','Wade','Rosa',
+    'Blaze','Ivy','Axel','Zoe','Cole','Maya','Rex','Aria',
+    'Troy','Kira','Dash','Lena','Brix','Opal','Jax','Nora',
+    'Crew','Wren','Ace','Faye','Dean','Ruby','Cy','Skye',
+    'Wolf','Jade','Ford','Iris','Hawk','Nova','Stern','Echo',
+    'Quinn','Vex','Rook','Storm','Vale','Onyx','Bear','Sage',
+  ];
+
+  // Shuffled copy — draw names in order so each game gets unique set
+  let _namePool = [];
+  function _refillNames() {
+    _namePool = PLAYER_NAMES.slice().sort(() => Math.random() - 0.5);
+  }
+  function pickName() {
+    if (_namePool.length === 0) _refillNames();
+    return _namePool.pop();
+  }
+
+  return { clamp, lerp, randInt, randFrom, dist2, floodFillInterior, PLAYER_COLORS, PLAYER_NAMES, pickName };
 })();
